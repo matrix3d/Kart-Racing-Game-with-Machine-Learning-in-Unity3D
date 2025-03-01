@@ -49,7 +49,7 @@ public class FoodCollectorAgent : Agent
             float[] rayAngles = { 20f, 90f, 160f, 45f, 135f, 70f, 110f };
             string[] detectableObjects = { "food", "agent", "wall", "badFood", "frozenAgent" };
             AddVectorObs(m_RayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
-            var localVelocity = transform.InverseTransformDirection(m_AgentRb.velocity);
+            var localVelocity = transform.InverseTransformDirection(m_AgentRb.linearVelocity);
             AddVectorObs(localVelocity.x);
             AddVectorObs(localVelocity.z);
             AddVectorObs(System.Convert.ToInt32(m_Frozen));
@@ -144,15 +144,15 @@ public class FoodCollectorAgent : Agent
             {
                 m_Shoot = true;
                 dirToGo *= 0.5f;
-                m_AgentRb.velocity *= 0.75f;
+                m_AgentRb.linearVelocity *= 0.75f;
             }
             m_AgentRb.AddForce(dirToGo * moveSpeed, ForceMode.VelocityChange);
             transform.Rotate(rotateDir, Time.fixedDeltaTime * turnSpeed);
         }
 
-        if (m_AgentRb.velocity.sqrMagnitude > 25f) // slow it down
+        if (m_AgentRb.linearVelocity.sqrMagnitude > 25f) // slow it down
         {
-            m_AgentRb.velocity *= 0.95f;
+            m_AgentRb.linearVelocity *= 0.95f;
         }
 
         if (m_Shoot)
@@ -228,7 +228,7 @@ public class FoodCollectorAgent : Agent
         Unpoison();
         Unsatiate();
         m_Shoot = false;
-        m_AgentRb.velocity = Vector3.zero;
+        m_AgentRb.linearVelocity = Vector3.zero;
         myLaser.transform.localScale = new Vector3(0f, 0f, 0f);
         transform.position = new Vector3(Random.Range(-m_MyArea.range, m_MyArea.range),
             2f, Random.Range(-m_MyArea.range, m_MyArea.range))

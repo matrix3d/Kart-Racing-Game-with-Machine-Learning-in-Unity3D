@@ -70,7 +70,7 @@ public class WalkerAgent : Agent
     {
         var rb = bp.rb;
         AddVectorObs(bp.groundContact.touchingGround ? 1 : 0); // Is this bp touching the ground
-        AddVectorObs(rb.velocity);
+        AddVectorObs(rb.linearVelocity);
         AddVectorObs(rb.angularVelocity);
         var localPosRelToHips = hips.InverseTransformPoint(rb.position);
         AddVectorObs(localPosRelToHips);
@@ -154,11 +154,11 @@ public class WalkerAgent : Agent
         // c. Encourage head height.
         // d. Discourage head movement.
         AddReward(
-            +0.03f * Vector3.Dot(m_DirToTarget.normalized, m_JdController.bodyPartsDict[hips].rb.velocity)
+            +0.03f * Vector3.Dot(m_DirToTarget.normalized, m_JdController.bodyPartsDict[hips].rb.linearVelocity)
             + 0.01f * Vector3.Dot(m_DirToTarget.normalized, hips.forward)
             + 0.02f * (head.position.y - hips.position.y)
-            - 0.01f * Vector3.Distance(m_JdController.bodyPartsDict[head].rb.velocity,
-                m_JdController.bodyPartsDict[hips].rb.velocity)
+            - 0.01f * Vector3.Distance(m_JdController.bodyPartsDict[head].rb.linearVelocity,
+                m_JdController.bodyPartsDict[hips].rb.linearVelocity)
         );
     }
 

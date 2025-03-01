@@ -94,7 +94,7 @@ public class CrawlerAgent : Agent
         var rb = bp.rb;
         AddVectorObs(bp.groundContact.touchingGround ? 1 : 0); // Whether the bp touching the ground
 
-        var velocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.velocity);
+        var velocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.linearVelocity);
         AddVectorObs(velocityRelativeToLookRotationToTarget);
 
         var angularVelocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.angularVelocity);
@@ -246,7 +246,7 @@ public class CrawlerAgent : Agent
     /// </summary>
     void RewardFunctionMovingTowards()
     {
-        m_MovingTowardsDot = Vector3.Dot(m_JdController.bodyPartsDict[body].rb.velocity, m_DirToTarget.normalized);
+        m_MovingTowardsDot = Vector3.Dot(m_JdController.bodyPartsDict[body].rb.linearVelocity, m_DirToTarget.normalized);
         AddReward(0.03f * m_MovingTowardsDot);
     }
 

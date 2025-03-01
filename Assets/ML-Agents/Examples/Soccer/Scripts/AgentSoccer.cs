@@ -203,7 +203,7 @@ public class AgentSoccer : Agent
             transform.rotation = Quaternion.Euler(0f, 90f, 0f);
         }
         transform.position = area.GetRandomSpawnPos(agentRole, team);
-        agentRb.velocity = Vector3.zero;
+        agentRb.linearVelocity = Vector3.zero;
         agentRb.angularVelocity = Vector3.zero;
         SetResetParameters();
     }

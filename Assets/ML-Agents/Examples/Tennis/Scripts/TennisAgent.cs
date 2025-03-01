@@ -48,13 +48,13 @@ public class TennisAgent : Agent
     {
         AddVectorObs(m_InvertMult * (transform.position.x - myArea.transform.position.x));
         AddVectorObs(transform.position.y - myArea.transform.position.y);
-        AddVectorObs(m_InvertMult * m_AgentRb.velocity.x);
-        AddVectorObs(m_AgentRb.velocity.y);
+        AddVectorObs(m_InvertMult * m_AgentRb.linearVelocity.x);
+        AddVectorObs(m_AgentRb.linearVelocity.y);
 
         AddVectorObs(m_InvertMult * (ball.transform.position.x - myArea.transform.position.x));
         AddVectorObs(ball.transform.position.y - myArea.transform.position.y);
-        AddVectorObs(m_InvertMult * m_BallRb.velocity.x);
-        AddVectorObs(m_BallRb.velocity.y);
+        AddVectorObs(m_InvertMult * m_BallRb.linearVelocity.x);
+        AddVectorObs(m_BallRb.linearVelocity.y);
     }
 
     public override void AgentAction(float[] vectorAction, string textAction)
@@ -64,10 +64,10 @@ public class TennisAgent : Agent
 
         if (moveY > 0.5 && transform.position.y - transform.parent.transform.position.y < -1.5f)
         {
-            m_AgentRb.velocity = new Vector3(m_AgentRb.velocity.x, 7f, 0f);
+            m_AgentRb.linearVelocity = new Vector3(m_AgentRb.linearVelocity.x, 7f, 0f);
         }
 
-        m_AgentRb.velocity = new Vector3(moveX * 30f, m_AgentRb.velocity.y, 0f);
+        m_AgentRb.linearVelocity = new Vector3(moveX * 30f, m_AgentRb.linearVelocity.y, 0f);
 
         if (invertX && transform.position.x - transform.parent.transform.position.x < -m_InvertMult ||
             !invertX && transform.position.x - transform.parent.transform.position.x > -m_InvertMult)
@@ -85,7 +85,7 @@ public class TennisAgent : Agent
         m_InvertMult = invertX ? -1f : 1f;
 
         transform.position = new Vector3(-m_InvertMult * Random.Range(6f, 8f), -1.5f, -3.5f) + transform.parent.transform.position;
-        m_AgentRb.velocity = new Vector3(0f, 0f, 0f);
+        m_AgentRb.linearVelocity = new Vector3(0f, 0f, 0f);
 
         SetResetParameters();
     }

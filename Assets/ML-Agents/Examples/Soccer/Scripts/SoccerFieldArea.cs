@@ -154,7 +154,7 @@ public class SoccerFieldArea : MonoBehaviour
     public void ResetBall()
     {
         ball.transform.position = GetBallSpawnPosition();
-        ballRb.velocity = Vector3.zero;
+        ballRb.linearVelocity = Vector3.zero;
         ballRb.angularVelocity = Vector3.zero;
 
         var ballScale = m_Academy.resetParameters["ball_scale"];
